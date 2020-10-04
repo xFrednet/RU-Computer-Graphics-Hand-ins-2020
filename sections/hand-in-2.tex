@@ -5,7 +5,9 @@ You have access to  the same matrix and graphics classes as we built together th
 
 What you want to draw is the following scene: 
 
-\subsubsection{a) A box of size 2x2x2, centered in (9,5,-2) and under it a big flat floor which is 10x10 in the x-z plane but only 0.8 thick.  Its corner should be in (0,0,0) and its top edge level with the base x-z plane.}
+a) A box of size 2x2x2, centered in (9,5,-2) and under it a big flat floor which is 10x10 in the x-z plane but only 0.8 thick.  Its corner should be in (0,0,0) and its top edge level with the base x-z plane.
+
+\subsubsection{(5\%) Write the code that would draw the scene described.  Imagine you’re already inside the display function and lights, colors and cameras have already been set.}
 
 I assume that the BoxGraphic instances have been setup with the following scale and position class members: I ignore the rotation because it wasn't mentioned :)
 
@@ -32,20 +34,15 @@ I've created two solutions for the code. The first one is just the code I create
 \textbf{Second solution:}
 \begin{verbatim}
     for e in entities:
-        matrix = (ModelMatrix.identity()
-                    .translate(e.position)
-                    .scale(e.scale))
-        # Bind buffers
-        gl.glEnableVertexAttribArray(StandardShaderProgram.POSITION_ATTR)
-        gl.glEnableVertexAttribArray(StandardShaderProgram.COLOR_ATTR)
+        self.model_matrix.load_identity()
+        self.model_matrix.translate(e.get_position())
+        self.model_matrix.scale(e.get_scale())
 
-        # Draw the beautiful
-        gl.glUniformMatrix4fv(transformation_matrix_loc, 1, gl.GL_FALSE, matrix.c_ptr())
+        self.shader.set_model_matrix(self.model_matrix.matrix)
         e.drawSolidCube()
-        
-        # Unbind the thingies
-        gl.glDisableVertexAttribArray(StandardShaderProgram.POSITION_ATTR)
-        gl.glDisableVertexAttribArray(StandardShaderProgram.COLOR_ATTR)
+
+        pygame.display.flip()
+
 \end{verbatim}
 
 \subsubsection{b)  (5\%) Show the values that are in the shader’s model matrix when the first box is drawn.}
@@ -74,7 +71,15 @@ $ model\_matrix = \left(\begin{array}{cccc}2&0&0&9\\0&2&0&5\\0&0&2&-2\\0&0&0&1\e
 \subsection{5.  Camera Transformations (30\%)} 
 \subsubsection{a)  (15\%) A camera is set up to be positioned in (0,8,4) looking at the point (0,3,-1). It has an up vector (0,0,-1). Find the point of origin and vectors for the camera's coordinate frame.}
 
-$origin = \left(\begin{array}{c}0\\-8\\-4\end{array}\right)$
+$
+    origin
+=
+    \left(\begin{array}{c}
+        8\\
+        4
+        0\\
+    \end{array}\right)
+$
 
 I'm not a 100\% sure which vectors I should calculate for the coordinate frame but I expect that these are $ \vec{v}, \vec{n}, \vec{u} $ for the view matrix. This would also kind of make sense. So here we go:
 
