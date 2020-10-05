@@ -1,6 +1,6 @@
 \section{TGRA Hand-in 3}
 
-\subsection{Lighting calculations (10\%)}
+\subsection{Lighting calculations (10\%) (2014 No. 6)}
 A single light is in the light model in an OpenGL program. It has the ambient values (0.0, 0.0, 0.0), diffuse values (0.5, 0.3, 0.7), specular values (0.3, 0.8, 0.7) and position (5.0, 8.0, -1.0). There is also a global ambient factor of (0.3, 0.2, 0.4) in the light model. A camera is positioned in (4.0, 6.0, 5.0) and looks towards P.
 
 P has the color values: ambient (0.4, 0.2, 0.3), diffuse (0.4, 0.7, 0.2) and specular (0.6, 0.6, 0.6). It has a shininess value of 13. It has the position (4.0, 4.0, 3.0) and a normal (0.0, 1.0, 0.0).
@@ -244,7 +244,7 @@ $
 The blue value of the object in point P is $\approx$ 0.3977
 
 \newpage
-\subsection{ (10\%) Cohen-Sutherland Clipping }
+\subsection{(10\%) Cohen-Sutherland Clipping (2015 No. 2)}
 A clipping window has the following geometry:
 \begin{itemize}
     \item Window(left, right, bottom, top) = (200, 600, 100, 400) 
@@ -257,3 +257,43 @@ A line with the following end points is drawn in the world:
 \end{itemize}
  
 \subsubsection{Show how the Cohen-Sutherland clipping algorithm will clip these lines and what their final endpoints, if any, are.  Show the coordinate values of P1 and P2 after each pass of the algorithm.}
+
+\begin{tabular}{|l|l|l|l|}
+    \hline
+    & \textbf{left} & \textbf{center} & \textbf{right} \\   \hline
+    \textbf{top}    & 1001 & 1000   & 1010 \\    \hline
+    \textbf{center} & 0001 & 0000   & 0010 \\    \hline
+    \textbf{bottom} & 0101 & 0100   & 0110 \\    \hline
+\end{tabular}
+
+\textbf{Iteration 1}
+
+\begin{verbatim}
+    P1_code = 1000
+    P2_code = 0001
+    
+    // => Clip P1 to the top
+
+    P1.x += (top - P1.y) * (P2_x - P1_x) / (P2_y - P1_y) // -44.4444
+    P1.y = top
+
+    // P1: (195.5, 400)
+    // P2: (140  , 300)
+\end{verbatim}
+
+\textbf{Iteration 2}
+
+\begin{verbatim}
+    P1_code = 0001
+    P2_code = 0001
+
+    // Both points are outside on the same side
+    // => The entire line gets clipped. The points from the last
+    //    Iteration still stand
+    //      * P1: (195.5, 400)
+    //      * P2: (140  , 300)
+
+\end{verbatim}
+
+\rule{\textwidth}{0.25mm}
+Okay, this is the end of this hand-in. I have to say that I've gotten used to writing \LaTeX{} by now. It's still slower than writing by hand or in the case of No.2 just using a monospace environment. But this is a good exercise and I had some fun writing these 300 lines \string^\string^
