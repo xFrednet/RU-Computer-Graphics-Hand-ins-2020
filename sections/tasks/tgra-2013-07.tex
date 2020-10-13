@@ -1,0 +1,33 @@
+\subsection{Graphics programming (10\%)}
+The class D6 (previous/opposite page) contains data to draw a 3D cube.  Imagine that the texture sent into it's constructor is this image:
+
+\includegraphics{sections/tasks/res/tgra-2013-07-dice-texture.png}
+
+\subsubsection{a) (5\%) Add to the class D6 the code needed to use this texture and to map a different numbered face to each of the cube's sides. You can add code between any lines in the code on the opposite page.}
+Hint: You need to set up the UV coordinates (between 0 and 1) for all the cube's vertices.
+
+\subsubsection{b) (5\%) A separate dice rolling engine returns a list of the structure RolledD6:}
+
+\begin{verbatim}
+    public class coords {
+        public float x;
+        public float y;
+        public float z;
+    }
+    public class RolledD6 {
+        public float size;
+        public coords position;
+        public coords rotationAxis;
+        public float rotationAngle;
+    }
+\end{verbatim}
+
+Finish code that will display each of the rolled dice of the size indicated, at the correct position and rotated by the rotation angle around the vector called rotation axis.
+
+\begin{verbatim}
+    void drawDiceSet {
+        List<RolledD6> diceList = DiceRollingEngine.getDice();
+        foreach(RolledDice d in diceList) {
+        }
+    }
+\end{verbatim}

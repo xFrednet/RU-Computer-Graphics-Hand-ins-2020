@@ -1,0 +1,138 @@
+\subsection{(20\%) Shaders (2015 No. 4)}
+
+On the following two pages there are shaders for use in an OpenGL pipeline, a vertex shader and a fragment shader.  You can add both uniform and varying variables to these shaders above their main() function definition and you can add any number of variables and code inside the main functions. 
+ 
+The following types can be used: 
+
+\begin{tabular}{ll}
+    \texttt{float} & a floating point number  \\
+    \texttt{vec4}  & a 4 coordinate vector, used for positions, directions and colors  \\
+    \texttt{mat4}  & a 4x4 matrix  \\
+\end{tabular}
+ 
+The following GLSL functions can be used: 
+
+\begin{tabular}{lll}
+    \texttt{float} & \texttt{dot(vec4 v1, vec4 v2):}     & Returns the dot product of two vectors       \\
+    \texttt{vec4}  & \texttt{normalize (vec4 v):}        & Returns the normalized vector                \\
+    \texttt{float} & \texttt{length(vec4 v):}            & Returns the length of the vector             \\
+    \texttt{vec4}  & \texttt{cross(vec4 v1, vec4 v2):}   & Returns the cross product of two vectors     \\
+    \texttt{float} & \texttt{max(float a, float b):}     & Returns the higher value                     \\
+    \texttt{float} & \texttt{min(float a, float b):}     & Returns the lower value                      \\
+    \texttt{float} & \texttt{pow(float num, float exp):} & Returns num to the power of exp              \\
+\end{tabular}
+ 
+\verb|+, -, *, /| are done component-wise on vec4 but as matrix multiplications when one or both sides are mat4. 
+ 
+Variables are already defined for the attributes \texttt{a\_position} and \texttt{a\_normal} for each vertex that will be sent through the pipeline. 
+ 
+The current shaders both have the same initial definitions at this point. Strike out those that are unnecessary in each shader and add whatever definitions you need for each of the following problems. 
+
+\subsubsection{a) (5\%) Add variables and calculations needed to transform the position attribute (vertices) to global coordinates, eye coordinates and clip coordinates and set the value for the built-in output variable gl\_Position. }
+
+\subsubsection{b) (10\%) Add variables and calculations needed for the shaders to do per-fragment lighting. Include ambient, diffuse and specular lighting for a single light source.  Set the final color value to the built-in output variable gl\_FragColor.}
+
+\subsubsection{c) (5\%) Fog is a color that is mixed with the final fragment color based on distance from the camera. Anything closer than u\_startFog is 100\% the fragment color, anything further away than u\_endFog is 100\% the fog color. Anything in between is a weighted average of the two based on the proportion of the distance in the startFog to endFog range. Add variables and calculations to the shaders to implement this functionality. }
+
+\newpage
+\textbf{Vertex shader}
+\small
+\begin{lstlisting}
+    // xxx attribute vec3 a_position; 
+    // xxx attribute vec3 a_normal; 
+
++   in vec3 in_position;
++   in vec3 in_normal;
+
++   out vec4 surface_normal; // Also called n
++   out vec4 to_light;   // Also called S
++   out vec4 to_camera;  // Also called v
+
+    uniform vec4 u_lightPosition;
++   uniform vec4 u_camera_position;
+    // xxx uniform vec4 u_lightColor; 
+ 
+    // xxx uniform vec4 u_materialAmbient; 
+    // xxx uniform vec4 u_materialDiffuse; 
+    // xxx uniform vec4 u_materialSpecular; 
+    // xxx uniform float u_materialShininess; 
+
++   uniform mat4 u_transformation_matrix;
++   uniform mat4 u_view_matrix;
++   uniform mat4 u_projection_matrix;
+
+    main() {
++       vec4 global_coordinates = u_transformation_matrix * vec4(in_position, 1.0);
++       vec4 eye_coordinates = u_view_matrix * eye_coordinates;
++       vec4 clip_coordinates = u_projection_matrix * eye_coordinates;
+
++       to_light = u_lightPosition - global_coordinates;
++       to_camera = u_camera_position - global_coordinates;
+
++       surface_normal = normalize(u_transformation_matrix * vec4(in_normal, 0.0));
++       gl_Position = clip_coordinates;
+    }
+\end{lstlisting}
+\normalsize
+
+\newpage
+\textbf{Fragment shader}
+
+\small
+\begin{lstlisting}
+    // xxx attribute vec3 a_position; 
+    // xxx attribute vec3 a_normal; 
+
++   in vec4 surface_normal;
++   in vec4 to_light;
++   in vec4 to_camera;
+
+    // xxx uniform vec4 u_lightPosition;
+    uniform vec4 u_lightColor; 
+ 
+    uniform vec4 u_materialAmbient; 
+    uniform vec4 u_materialDiffuse; 
+    uniform vec4 u_materialSpecular; 
+    uniform float u_materialShininess; 
+
++   uniform vec4 u_startFog;
++   uniform vec4 u_endFog;
++   uniform vec4 u_fog_color;
+
+    main() {
++       // #############
++       // Lighting
++       // #############
++       // diffuse lighting
++       float lambert = max(dot(surface_normal * normalize(to_light)), 0.0);
+        vec4 diffuse = u_materialDiffuse * lambert;
++
++       // specular lighting
++       vec4 h = to_light + to_camera;
++       float phong = max(dot(surface_normal * normalize(h)), 0.0);
++       vec4 specular = u_materialSpecular * pow(phong, u_materialShininess);
+
++       // ambient
++       vec4 ambient = u_materialAmbient * u_lightColor;
++       vec4 fragment_color = diffuse + specular + ambient;
+
++       // ############
++       // Fog
++       // ############
++       float camera_distance = length(to_camera);
++       float fog_diff = u_endFog - u_startFog;
++       float in_fog_distance = camera_distance - u_startFog;
++       float fog_value = max(min(in_fog_distance / fog_diff, 0.0), 1.0);
++
++       // ############
++       // Output
++       // ############
++       //             <--         Light              -->   <--       Fog       -->
++       gl_FragColor = fragment_color * (1.0 - fog_value) + u_fog_color * fog_value;
+    }
+\end{lstlisting}
+\normalsize
+
+\rule{\textwidth}{0.2mm}
+
+\textbf{This doesn't look that good with latex tbh... but I'm to stubborn to change it at this point. Stubbornness is not always a good trait.}

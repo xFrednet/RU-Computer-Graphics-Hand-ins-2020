@@ -1,0 +1,76 @@
+$d := distance$
+
+$f := shininess$
+
+$
+    lambert
+=
+    max\left(
+        \frac{
+            n
+            \circ
+            S
+        }{
+            | n | * | S |
+        }
+        , 
+        0
+    \right)
+$
+
+$
+    phong
+=
+    max\left(
+        \frac{n \circ h}{|n| * |h|}
+        ,
+        0
+    \right)
+$
+
+$
+    attFactor = attenuation.x * d^2 + attenuation.y * d + attenuation.z
+$
+
+$
+    I
+=
+    \sum{}^{}
+    \left(
+        \left(
+            I_d
+            *
+            \frac{
+                material_d
+                *
+                lambert
+            }{
+                attFactor
+            }
+        \right)
+        +
+        \left(
+            I_s
+            *
+            \frac{
+                material_s
+                *
+                phong^{f}
+            }{
+                attFactor
+            }
+        \right)
+    \right)
+    +
+    \left(
+        I_{gaf}
+        *
+        material_a
+    \right)
+$
+
+$
+    Reflection(\vec{a})
+=
+    \vec{a} - 2 * (\vec{a} \circ \vec{n}) * \vec{n}
+$
