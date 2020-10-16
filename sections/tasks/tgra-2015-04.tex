@@ -129,6 +129,7 @@ The current shaders both have the same initial definitions at this point. Strike
 +       // ############
 +       //             <--         Light              -->   <--       Fog       -->
 +       gl_FragColor = fragment_color * (1.0 - fog_value) + u_fog_color * fog_value;
++       // Looking back on this let's me see some optimizations but I'll keep it like this :)
     }
 \end{lstlisting}
 \normalsize

@@ -8,26 +8,109 @@ Hint: You need to set up the UV coordinates (between 0 and 1) for all the cube's
 
 \subsubsection{b) (5\%) A separate dice rolling engine returns a list of the structure RolledD6:}
 
+\small
 \begin{verbatim}
-    public class coords {
-        public float x;
-        public float y;
-        public float z;
-    }
-    public class RolledD6 {
-        public float size;
-        public coords position;
-        public coords rotationAxis;
-        public float rotationAngle;
-    }
+public class coords {
+    public float x;
+    public float y;
+    public float z;
+}
+public class RolledD6 {
+    public float size;
+    public coords position;
+    public coords rotationAxis;
+    public float rotationAngle;
+}
 \end{verbatim}
 
 Finish code that will display each of the rolled dice of the size indicated, at the correct position and rotated by the rotation angle around the vector called rotation axis.
 
 \begin{verbatim}
-    void drawDiceSet {
-        List<RolledD6> diceList = DiceRollingEngine.getDice();
-        foreach(RolledDice d in diceList) {
-        }
+void drawDiceSet {
+    List<RolledD6> diceList = DiceRollingEngine.getDice();
+    foreach(RolledDice d in diceList) {
++       glTranslate(d.position.x, d.position.y, d.position.z);
++       glRotate(d.rotationAngle, d.rotationAxis.x, d.rotationAxis.y, d.rotationAxis.z);
++       glScale(d.size, d.size, d.size);
     }
+}
 \end{verbatim}
+\normalsize
+\newpage
+
+\footnotesize
+\begin{verbatim}
+public class D6 {
+    FloatBuffer vertexBuffer;
+    FloatBuffer texCoordBuffer;
+    Texture texture;
+
+    public D6(Texture tex)
+    {
+        vertexBuffer = BufferUtils.newFloatBuffer(72);
+        vertexBuffer.put(new float[] {
+            -0.5f, -0.5f, -0.5f, -0.5f,  0.5f, -0.5f, // back  | 6
+             0.5f, -0.5f, -0.5f,  0.5f,  0.5f, -0.5f, //
+             0.5f, -0.5f, -0.5f,  0.5f,  0.5f, -0.5f, // left  | 2
+             0.5f, -0.5f,  0.5f,  0.5f,  0.5f,  0.5f, //
+             0.5f, -0.5f,  0.5f,  0.5f,  0.5f,  0.5f, // front | 1
+            -0.5f, -0.5f,  0.5f, -0.5f,  0.5f,  0.5f, //
+            -0.5f, -0.5f,  0.5f, -0.5f,  0.5f,  0.5f, // right | 5
+            -0.5f, -0.5f, -0.5f, -0.5f,  0.5f, -0.5f, //
+            -0.5f,  0.5f, -0.5f, -0.5f,  0.5f,  0.5f, // up    | 4
+             0.5f,  0.5f, -0.5f,  0.5f,  0.5f,  0.5f, //
+            -0.5f, -0.5f, -0.5f, -0.5f, -0.5f,  0.5f, // down  | 3
+             0.5f, -0.5f, -0.5f,  0.5f, -0.5f,  0.5f  //
+        });
+        vertexBuffer.rewind();
+
+        texCoordBuffer = BufferUtils.newFloatBuffer(48);
+        texCoordBuffer.put(new float[] {
++           0.66f, 0.66f,    1.00f, 0.66f, // back  | 6
++           0.66f, 1.00f,    1.00f, 1.00f, //
++           0.00f, 0.33f,    0.33f, 0.33f, // left  | 2
++           0.00f, 0.66f,    0.33f, 0.66f, //
++           0.33f, 0.33f,    0.66f, 0.33f, // front | 1
++           0.33f, 0.66f,    0.66f, 0.66f, //
++           0.66f, 0.33f,    1.00f, 0.33f, // right | 5
++           0.66f, 0.66f,    1.00f, 0.66f, //
++           0.33f, 0.00f,    0.66f, 0.00f, // up    | 4
++           0.33f, 0.33f,    0.66f, 0.33f, //
++           0.33f, 0.66f,    0.66f, 0.66f, // down  | 3
++           0.33f, 1.00f,    0.66f, 0.66f //
+        });
+        texCoordBuffer.rewind();
++       this.texture = tex;
+    }
+    public void draw()
+    {
+        Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, vertexBuffer);
++       Gdx.gl11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, texCoordBuffer);
++       Gdx.gl11.glActiveTexture(GL11.GL_TEXTURE0);
++       Gdx.gl11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
+
+        Gdx.gl11.glNormal3f(0.0f, 0.0f, -1.0f);
+        Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
+        Gdx.gl11.glNormal3f(1.0f, 0.0f, 0.0f);
+        Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 4, 4);
+        Gdx.gl11.glNormal3f(0.0f, 0.0f, 1.0f);
+        Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 8, 4);
+        Gdx.gl11.glNormal3f(-1.0f, 0.0f, 0.0f);
+        Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 12, 4);
+        Gdx.gl11.glNormal3f(0.0f, 1.0f, 0.0f);
+        Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 16, 4);
+        Gdx.gl11.glNormal3f(0.0f, -1.0f, 0.0f);
+        Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 20, 4);
+
++       // I don't unbind the things here because there isn't much space in the 
++       // exam and it'll just be overwritten by the next render :)
+    }
+}
+\end{verbatim}
+\normalsize
+
+\rule{\textwidth}{0.2mm}
+
+\textbf{I'm not sure if these are the additions that where expected for this task. However, I believe that this should render the dice correctly :)}
+
+\newpage
