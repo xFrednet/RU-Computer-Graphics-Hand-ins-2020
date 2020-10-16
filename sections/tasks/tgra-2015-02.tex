@@ -1,0 +1,53 @@
+\subsection{(10\%) Cohen-Sutherland Clipping (2015 No. 2)}
+A clipping window has the following geometry:
+\begin{itemize}
+    \item Window(left, right, bottom, top) = (200, 600, 100, 400) 
+\end{itemize}
+ 
+A line with the following end points is drawn in the world: 
+\begin{itemize}
+    \item P1: (240, 480) 
+    \item P2: (140, 300) 
+\end{itemize}
+ 
+\subsubsection{Show how the Cohen-Sutherland clipping algorithm will clip these lines and what their final endpoints, if any, are.  Show the coordinate values of P1 and P2 after each pass of the algorithm.}
+
+\begin{tabular}{|l|l|l|l|}
+    \hline
+    & \textbf{left} & \textbf{center} & \textbf{right} \\   \hline
+    \textbf{top}    & 1001 & 1000   & 1010 \\    \hline
+    \textbf{center} & 0001 & 0000   & 0010 \\    \hline
+    \textbf{bottom} & 0101 & 0100   & 0110 \\    \hline
+\end{tabular}
+
+\textbf{Iteration 1}
+
+\begin{verbatim}
+    P1_code = 1000
+    P2_code = 0001
+    
+    // => Clip P1 to the top
+
+    P1.x += (top - P1.y) * (P2_x - P1_x) / (P2_y - P1_y) // -44.4444
+    P1.y = top
+
+    // P1: (195.5, 400)
+    // P2: (140  , 300)
+\end{verbatim}
+
+\textbf{Iteration 2}
+
+\begin{verbatim}
+    P1_code = 0001
+    P2_code = 0001
+
+    // Both points are outside on the same side
+    // => The entire line gets clipped. The points from the last
+    //    Iteration still stand
+    //      * P1: (195.5, 400)
+    //      * P2: (140  , 300)
+
+\end{verbatim}
+
+\rule{\textwidth}{0.25mm}
+Okay, this is the end of this hand-in. I have to say that I've gotten used to writing \LaTeX{} by now. It's still slower than writing by hand or in the case of No.2 just using a monospace environment. But this is a good exercise and I had some fun writing these 300 lines \string^\string^
