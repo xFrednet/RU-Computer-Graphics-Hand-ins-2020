@@ -1,0 +1,147 @@
+\subsection{5.  Camera Transformations (30\%) (2015, No. 5)} 
+\subsubsection{a)  (15\%) A camera is set up to be positioned in (0,8,4) looking at the point (0,3,-1). It has an up vector (0,0,-1). Find the point of origin and vectors for the camera's coordinate frame.}
+
+$
+    origin
+=
+    \left(\begin{array}{c}
+        8\\
+        4
+        0\\
+    \end{array}\right)
+$
+
+I'm not a 100\% sure which vectors I should calculate for the coordinate frame but I expect that these are $ \vec{v}, \vec{n}, \vec{u} $ for the view matrix. This would also kind of make sense. So here we go:
+
+$ 
+    \vec{n}
+=
+    normalize(\vec{origin} - \vec{looking\_at})
+=
+    normalize\left(\begin{array}{c}
+        0 - 0 \\
+        8 - 3 \\
+        4 - -1
+    \end{array}\right) 
+= 
+    normalize\left(\begin{array}{c}
+        0 \\
+        5 \\
+        5
+    \end{array}\right)
+\approx
+    \left(\begin{array}{c}
+        0\\
+        0.707\\
+        0.707
+    \end{array}\right)
+$
+
+$
+    \vec{u}
+=
+    normalize\left( \vec{up} \times \vec{n} \right)
+\approx
+    normalize\left(\begin{array}{c}
+        0.707\\
+        0\\
+        0
+    \end{array}\right)
+=
+    \left(\begin{array}{c}
+        1\\
+        0\\
+        0
+    \end{array}\right)
+$
+
+$
+    \vec{v}
+=
+    normalize\left(\left(\vec{n} \times \vec{u} \right)\right)
+\approx
+    \left(\begin{array}{c}
+        0\\
+        0.707\\
+        -0.707
+    \end{array}\right)
+$
+
+\subsubsection{(5\%) Set up the values in a matrix that represents this position and orientation of a camera.\\Which matrix in your shader should be set to these values? }
+
+% **Some old C++ code for this**
+% 
+%     Vec3 zAxis = Normalize(position - lookAt);
+%     Vec3 xAxis = Normalize(Cross(up, zAxis));
+%     Vec3 yAxis = Cross(zAxis, xAxis);
+% 
+%     *result =  Mat4(
+%         Vec4(xAxis.X, yAxis.X, zAxis.X, 0.0f),
+%         Vec4(xAxis.Y, yAxis.Y, zAxis.Y, 0.0f),
+%         Vec4(xAxis.Z, yAxis.Z, zAxis.Z, 0.0f),
+%         Vec4(-Dot(xAxis, position), -Dot(yAxis, position), -Dot(zAxis, position), 1.0f)
+%     );
+    
+From formula sheet: $\left(
+    \begin{array}{cccc}
+        u_x & u_y & u_z & -(eye \circ u) \\
+        v_x & v_y & v_z & -(eye \circ v) \\
+        n_x & n_y & n_z & -(eye \circ n) \\
+        0 & 0 & 0 & 1
+    \end{array}
+    \right)$
+
+
+
+\texttt{ViewMatrix}
+$
+\approx
+    \left(\begin{array}{cccc}
+        1 & 0 & 0 & 0\\
+        0 & 0.707 & -0.707 & -2.828\\
+        0 & 0.707 & 0.707 & -8.485\\
+        0 & 0 & 0 & 1
+    \end{array}\right)
+$
+
+The view matrix should be set to these values.
+
+\subsubsection{(10\%) The camera should have a field of view of 75 grad, an aspect ratio of 16:9, a near plane at 3 and a far plane at 25.  Find the exact values for a matrix that calculates this camera.\\ Which matrix in your shader should be set to these values? }
+
+From formula sheet: $
+    \left(\begin{array}{cccc}
+        \frac{2N}{right-left} & 0 & \frac{right + left}{right - left} & 0 \\
+        0 & \frac{2N}{top - bottom} & \frac{top + bottom}{top - bottom} & 0 \\
+        0 & 0 & \frac{-(F + N)}{F - N} & \frac{-2 * F * N}{F - N} \\
+        0 & 0 & -1 & 0
+    \end{array}\right)
+$
+
+N = 3
+
+F = 25
+
+fov = 75
+
+aspect = $\frac{16}{9}$
+
+top = $ N * tan\left(\frac{fov}{2}\right) \approx 3 * 0.767 \approx 2.301 $
+
+bottom = $ -top \approx -2.301$
+
+right = $top * aspect \approx 4.091$
+
+left = $-right \approx -4.091$
+
+\texttt{ProjectionMatrix}
+$
+\approx
+    \left(\begin{array}{cccc}
+        0.733 & 0 & 0 & 0 \\
+        0 & 1.304 & 0 & 0 \\
+        0 & 0 & -1.273 & 6.812 \\
+        0 & 0 & -1 & 0
+    \end{array}\right)
+$
+
+The projection matrix should be set to these values.
