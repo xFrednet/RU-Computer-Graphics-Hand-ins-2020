@@ -1,0 +1,115 @@
+\subsection{3. Window-2-Viewport mapping (10\%) (2014, No. 03)}
+\subsubsection{Points are drawn in a 2D world window (l,r,b,t) = (-10, 30, 50, 80). In which pixels on a 1600x1200 viewport (bottom left corner (0,0)) will the following points be rendered?}
+
+\begin{enumerate}
+    \item P1 = (-5, 70)
+    \item P2 = (20, 65)
+\end{enumerate}
+
+$ window_{origin} = \left(\begin{array}{c}-10\\50\end{array}\right)$
+
+$ width_{window} = (30 - -10) = 40 $
+
+$ height_{window} = (80 - 50) = 30 $
+
+$ width_{viewport} = 1600 $
+
+$ height_{viewport} = 1200 $
+
+$ \vec{w2v} = \left(\begin{array}{c}
+ \frac{width_{viewport}}{width_{window}}\\
+ \frac{height_{viewport}}{height_{window}}
+\end{array}\right)
+=
+\left(\begin{array}{c}
+ \frac{1600}{40}\\
+ \frac{1200}{30}
+\end{array}\right)
+=
+\left(\begin{array}{c}
+ 40\\
+ 40
+\end{array}\right)
+$
+
+$
+\vec{0P1} 
+=
+\left(\begin{array}{c}
+-5\\
+70
+\end{array}\right)
+$
+
+$
+\vec{0P2} 
+=
+\left(\begin{array}{c}
+20\\
+65
+\end{array}\right)
+$
+
+
+
+$
+P1Pixel
+= 
+\left(\vec{0P1} - window_{origin}\right) * \vec{w2v}
+$
+
+$
+P1Pixel
+=
+\left(
+    \left(\begin{array}{c}-5\\70\end{array}\right)
+    -
+    \left(\begin{array}{c}-10\\50\end{array}\right)
+\right)
+*
+\left(\begin{array}{c}40\\40\end{array}\right)
+$
+
+$
+P1Pixel
+=
+\left(\begin{array}{c}5\\20\end{array}\right)
+*
+\left(\begin{array}{c}40\\40\end{array}\right)
+=
+\left(\begin{array}{c}200\\800\end{array}\right)
+$
+
+% =================
+
+$
+P2Pixel
+= 
+\left(\vec{0P2} - window_{origin}\right) * \vec{w2v}
+$
+
+$
+P2Pixel
+=
+\left(
+    \left(\begin{array}{c}20\\65\end{array}\right)
+    -
+    \left(\begin{array}{c}-10\\50\end{array}\right)
+\right)
+*
+\left(\begin{array}{c}40\\40\end{array}\right)
+$
+
+$
+P2Pixel
+=
+\left(\begin{array}{c}30\\15\end{array}\right)
+*
+\left(\begin{array}{c}40\\40\end{array}\right)
+=
+\left(\begin{array}{c}1200\\600\end{array}\right)
+$
+
+P1 would be drawn at (200, 800) with a size of 40 x 40 px
+
+P2 would be drawn at (1200, 600) with a size of 40 x 40 px
