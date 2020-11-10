@@ -1,0 +1,29 @@
+\subsection{10\% Shaders and lighting (2017 No. 02)}
+Describe the difference between per-vertex lighting and per-fragment/per-pixel lighting. In each case bear the following questions in mind:
+
+\begin{itemize}
+    \item What are the advantages and drawbacks of the method?
+    \item What calculations happen where,and what values are set to the final result?
+    \item How is the data processed between different parts of the calculations?
+\end{itemize}
+
+\rule{\linewidth}{0.1mm}
+
+\begin{tabularx}{\textwidth}{| X | X |}
+    \hline
+    \textbf{Per-vertex Lighting} & \textbf{Per-fragment lighting} \\ \hline
+    The entire lighting calculations are done for each vertex. The resulting light or color is than passed to the fragment shader. The fragment shader input gets interpolated by OpenGL depending on the actual pixel position. & Some world position dependent values are calculated in the fragment shader. The actual lighting calculation is done in the fragment shader is self for each pixel. The input are the interpolated outputs of the fragment shader\\ \hline
+
+    The only data that is being passed from the vertex shader to the pixel shader is the object color or lighting effect if the color gets applied in the fragment shader & The world position and normal vector has to be passed to the fragment shader to calculate the lighting effect. The fragment shader usually already calculates the vector v (vector to camera) and S (vector to light) to reduce some calculations for the fragment shader. These values are all passed to the fragment shader.\\
+    \hline
+
+    + Fewer calculations since lighting is only calculated for each vertex & - More calculations because lighting is calculated fpr each fragment / pixes \\
+    - A bit inaccurate as the light is only calculated for a few spots and than interpolated between & + As accurate as because each pixel is calculated individually \\
+    + difference can be unnoticeable on objects with a lot of vertices and small faces. & + Works on faces with any size \\
+    - This is done before clipping. (Can cost more performance depending on the setup) & + Done after clipping only for pixels that are visible. \\
+    + Sends less data through the pipeline & - Sends more data through the pipeline \\
+
+    \hline
+
+
+\end{tabularx}

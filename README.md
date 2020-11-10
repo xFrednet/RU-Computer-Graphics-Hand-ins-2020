@@ -7,10 +7,10 @@ The problems and questions are examples from past exams and where provided by ou
 The related lectures are available on [Youtube.com](https://www.youtube.com/channel/UCZsPUrqqamZvNk-Ov0YDbJQ/featured).
 
 ## Grading:
-| Hand-in                                              | Grade    | Note:                                                                                            |
-| ---------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------ |
-| Hand-in 1:<br>mapping and vectors                    | 97 / 100 | Your result is correct but this is not the programmable method that we have used in class. [...] |
-| Hand-in 2:<br>transformation matrices and the camera | ?? / 100 |                                                                                                  |
-| Hand-in 3:<br>lights and clipping                    | ?? / 100 |                                                                                                  |
-| Hand-in 4:<br>shaders and texture                    | ?? / 100 |                                                                                                  |
-| Hand-in 5:<br>Smooth curves and fragment operations  | ?? / 100 |                                                                                                  |
+| Hand-in                                              | Grade     | Note:                                                                                            |
+| ---------------------------------------------------- | --------: | ------------------------------------------------------------------------------------------------ |
+| Hand-in 1:<br>mapping and vectors                    | 97 / 100  | Your result is correct but this is not the programmable method that we have used in class. [...] |
+| Hand-in 2:<br>transformation matrices and the camera | 92 / 100  |                                                                                                  |
+| Hand-in 3:<br>lights and clipping                    | 100 / 100 |                                                                                                  |
+| Hand-in 4:<br>shaders and texture                    | 92 / 100  | Forget to draw the textured cube itself                                                          |
+| Hand-in 5:<br>Smooth curves and fragment operations  | 100 / 100 | Thank you for the short stories :)                                                               |

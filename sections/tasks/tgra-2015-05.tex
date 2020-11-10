@@ -5,9 +5,9 @@ $
     origin
 =
     \left(\begin{array}{c}
+        0\\
         8\\
         4
-        0\\
     \end{array}\right)
 $
 
@@ -82,14 +82,15 @@ $
 %         Vec4(-Dot(xAxis, position), -Dot(yAxis, position), -Dot(zAxis, position), 1.0f)
 %     );
     
-From formula sheet: $\left(
-    \begin{array}{cccc}
+From formula sheet: 
+$
+    \left(\begin{array}{cccc}
         u_x & u_y & u_z & -(eye \circ u) \\
         v_x & v_y & v_z & -(eye \circ v) \\
         n_x & n_y & n_z & -(eye \circ n) \\
         0 & 0 & 0 & 1
-    \end{array}
-    \right)$
+    \end{array}\right)
+$
 
 
 
@@ -140,7 +141,7 @@ $
     \left(\begin{array}{cccc}
         0.733 & 0 & 0 & 0 \\
         0 & 1.304 & 0 & 0 \\
-        0 & 0 & -1.273 & 6.812 \\
+        0 & 0 & -1.273 & -6.812 \\
         0 & 0 & -1 & 0
     \end{array}\right)
 $
