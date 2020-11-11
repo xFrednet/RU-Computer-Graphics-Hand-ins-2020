@@ -23,7 +23,7 @@
 **/_markdown_main/
 **/*.markdown.lua
 **/*.markdown.in
-
+**/gen/
 
 # sumatrapdf
 sumatrapdfcache/

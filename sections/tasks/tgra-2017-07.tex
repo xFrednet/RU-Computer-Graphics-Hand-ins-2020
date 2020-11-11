@@ -1,4 +1,4 @@
-\subsection{(10\%) Bezier motion}
+\subsection{(10\%) Bezier motion (2017 No. 7)}
 Scalars in bezier curves can befound by factoring Bernstein polynomials: BL = $((1-t) + t)^L$ for a bezier curve with L + 1 control points.
 
 The camerais moved along a bezier curve with 4 control points.
@@ -19,7 +19,7 @@ The motion should start 14 seconds after the program starts and it should end 24
     \coordinate (P2) at (18,  5);
     \coordinate (P3) at (15,  8);
     \coordinate (P4) at ( 9, 11);
-    \coordinate (C)  at (13.74, 5);
+    \coordinate (P)  at (13.74, 5);
 
 
     \draw (P1) .. controls (P2) and (P3) .. (P4);
@@ -28,7 +28,7 @@ The motion should start 14 seconds after the program starts and it should end 24
     \filldraw [gray] (P2) circle (3pt) node[label={below:P2}]{};
     \filldraw [gray] (P3) circle (3pt) node[label={below:P3}]{};
     \filldraw [gray] (P4) circle (3pt) node[label={below:P4}]{};
-    \filldraw [gray] (C) circle (3pt) node[label={below:C}]{};
+    \filldraw [gray] (P) circle (3pt) node[label={below:P}]{};
 
 \end{tikzpicture}
 
