@@ -1,0 +1,113 @@
+\subsection{(10\%) Window-2-Viewport mapping (2018 No. 5)}
+A second line is drawn into the same window as in the previous example (4. Cohen-Sutherland clipping).  This line has the endpoints: 
+
+\begin{itemize}
+    \item Window(left, right, bottom, top) = (-16, 16, -9, 9)
+    \item P1 = (-5, 7) \& P2 = (12, -2) 
+\end{itemize}
+
+\subsubsection{In which pixels on a 1920x1080 viewport (bottom left corner (0, 0)) will the line's endpoints be rendered? }
+
+\begin{itemize}
+    \item viewport(left, right, bottom, top) = (0, 1920, 0, 1080)
+\end{itemize}
+
+\begin{itemize}
+    \item[A:] x scale (width ratio)
+    \item[C:] x translation 
+    \item[B:] y scale (height ratio)
+    \item[D:] y translation 
+\end{itemize}
+
+$
+    A 
+=
+    \frac{viewport\_right \:-\: viewport\_left}{window\_right \:-\: window\_left}
+=
+    \frac{1920 - 0}{16 - (-16)}
+=
+    60
+$
+
+$
+    B
+=
+    \frac{viewport\_top \:-\: viewport\_bottom}{window\_top \:-\: window\_bottom}
+=
+    \frac{1080 - 0}{9 - (-9)}
+=
+    60
+$
+
+$
+    C
+=
+    viewport\_left - window\_left * A
+=
+    0 - (-16) * 60
+=
+    960
+$
+
+$
+    D
+=
+    viewport\_bottom - window\_bottom * B
+=
+    0 - (-9) * 60
+=
+    540
+$
+
+$
+    T
+=
+    \left(\begin{array}{ccc}
+        A & 0 & C\\
+        0 & B & D\\
+        0 & 0 & 1\\
+    \end{array}\right)
+=
+    \left(\begin{array}{ccc}
+        60 &  0 & 960 \\
+        0  & 60 & 540 \\
+        0  &  0 &    1
+    \end{array}\right)
+$
+
+$
+    T * P1
+=
+    \left(\begin{array}{c}
+        -5 * 60 + 960\\
+        7 * 60 + 540\\
+        1
+    \end{array}\right)
+=
+    \left(\begin{array}{c}
+        660\\
+        960\\
+        1
+    \end{array}\right)
+$
+
+$
+    T * P2
+=
+    \left(\begin{array}{c}
+        12 * 60 + 960\\
+        -2 * 60 + 540\\
+        1
+    \end{array}\right)
+=
+    \left(\begin{array}{c}
+        1680\\
+        420\\
+        1
+    \end{array}\right)
+$
+
+\begin{itemize}
+    \item P1 will be drawn at (660, 960)
+    \item P2 will be drawn at (1680, 420)
+\end{itemize}

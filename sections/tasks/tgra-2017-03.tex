@@ -18,11 +18,13 @@ Show how the Cohen-Sutherland clipping algorithm will clip these lines and what 
     \draw[step=1.0cm, gray!20, ultra thin](20, 10) grid (60, 40);
     \coordinate (P1) at (65, 45);
     \coordinate (P2) at (35, 30);
+    \coordinate (C)  at (55, 40);
 
     \draw (P1) -- (P2);
     
     \filldraw (P1) circle (10pt) node[label={below:P1}]{};
     \filldraw (P2) circle (10pt) node[label={below:P2}]{};
+    \filldraw[red] (C) circle (10pt);
 \end{tikzpicture}
 
 \begin{tabular}{|l|l|l|l|}
